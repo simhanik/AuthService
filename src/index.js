@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const UserService = require('./services/user-service.js')
+
 const {PORT} = require('./config/serverConfig.js')
 // const {User} = require('./models')
 // const bcrypt = require('bcrypt')
@@ -29,6 +31,13 @@ const prepareAndStartServer = () => {
         // const incomingPassword = 'var123'
         // const user = await User.findByPk(3)
         // const response = bcrypt.compareSync(incomingPassword,user.password)
+        // console.log(response);
+        
+        const service = new UserService()
+        const newToken = service.createToken({email:'nikhil@admin.com'})
+        console.log("New token is ", newToken);
+        // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pa2hpbEBhZG1pbi5jb20iLCJpYXQiOjE3NTA3NzI4MzksImV4cCI6MTc1MDc3NjQzOX0.W9puCsbWvNV8fUi4MWnD4FQaP745_aRoeMxxGZ4c_AE'
+        // const response = service.verifyToken(token)
         // console.log(response);
         
         
