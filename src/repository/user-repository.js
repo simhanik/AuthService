@@ -1,14 +1,31 @@
-const {User,Role} = require('../models')
+const {User,Role} = require('../models');
+const ValidationError = require('../utils/validation-errors.js');
 
 class UserRepository {
-    async create(data){
+    async create(data) {
         try {
-            const user = await User.create(data)
-            return user
+            const user = await User.create(data);
+            return user;
         } catch (error) {
-            console.log("Something went wrong in the repository layer");
-            throw error
-            
+            if(error.name == 'SequelizeValidationError') {
+                throw new ValidationError(error);
+            }
+            console.log("Something went wrong on repository layer");
+            throw error;
+        }
+    }
+
+    async destroy(userId) {
+        try {
+            await User.destroy({
+                where: {
+                    id: userId
+                }
+            });
+            return true;
+        } catch (error) {
+            console.log("Something went wrong on repository layer");
+            throw error;
         }
     }
 
